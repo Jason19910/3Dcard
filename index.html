@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #info div{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body style="background-color: lightcyan">
+
+<div id="stage" style="width:100%;transform: rotateX(0deg); perspective: 800px;border: 1px solid black;text-align: center">
+    <div id="holder" style="padding:1px;display: inline-block;transform-style: preserve-3d;position: relative">
+        <img src="card.png" width="700" alt="">
+        <img src="bq.png" width="107" style="transform: translateZ(50px);position: absolute;right:110px;top: 102px">
+    </div>
+</div>
+<div style="position: fixed;top:10px;left:10px;">
+    xjc7cn - 卡片式效果
+</div>
+<div id="info" style="position: fixed;right:10px;left:10px;">
+    鼠标在stage中滑动是触发函数
+    当前偏差值：<div id="nor"></div>
+    当前x轴偏差：<div id="nox"></div>
+    当前y轴偏差：<div id="noy"></div>
+</div>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script>
+    $(function () {
+        $('#stage').bind('mousemove', function (e) {
+            //获取当前的元素的宽长
+            var c_width = $(this).width();
+            var c_height = $(this).height();
+            // 获取鼠标位置
+            //计算得出偏移鼠标的值，取百分比是最佳效果，适合其他的调用
+            var m_l = (e.pageX - c_width / 2) / c_width;
+            var m_t = (e.pageY - c_height / 2) / c_height;
+            //设置偏差值，数值越大，角度越大
+            //预留用户设置
+            var reduce = 160;
+            //设置偏差值，数值越大，角度越大
+            var $rotate_x = m_l * reduce + "deg";
+            var $rotate_y = m_t * reduce + "deg";
+            console.log($rotate_x + $rotate_y);
+            //绕x轴是rotateX，正数是翻，负数时翻过来；当在中心点，上半部分，,绕y轴计算是rotateY
+            //打印数值
+            //        $().text('x:'+m_l + 'y:' + m_t );
+            //当前偏差值：当前x轴偏差；当前y轴偏差
+            $("#nor").text(reduce);
+            $("#nox").text($rotate_x);
+            $("#noy").text($rotate_y);
+            $('#holder').css({
+                 transform: "rotateX(" + $rotate_y + ")" + "rotateY(" + $rotate_x + ")"
+            });
+        });
+
+
+
+    });
+</script>
+</body>
+</html>
